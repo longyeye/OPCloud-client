@@ -2,6 +2,8 @@ import { Injectable, Inject } from '@angular/core';
 import { ModelStorageInterface } from './model-storage.interface';
 import { ModelObject } from './model-object.class';
 import { FirebaseObjectObservable, AngularFire, FirebaseApp } from 'angularfire2';
+import { database } from 'firebase';
+
 
 @Injectable()
 export class ModelFbStorageService extends ModelStorageInterface {
@@ -28,11 +30,10 @@ export class ModelFbStorageService extends ModelStorageInterface {
     this.fbCurrentModel.set(modelObject.modelData);
   }
 
-  getModels(): Array<string> {
-    let ref = this.fb.database().ref('/modelnames');
-    return ref.once('value')
-      .then((snapshot) => {
-        return this.models = Object.keys(snapshot.val());
-      });
+  getModels() {
+    return database().ref('/modelnames').once('value')
+      .then(snapshot => {
+        return Object.keys(snapshot.val());
+      })
   }
 }

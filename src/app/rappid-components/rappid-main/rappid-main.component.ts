@@ -110,7 +110,7 @@ export class RappidMainComponent implements OnInit {
   updateLinkOPL(cell){
     var src=cell.getSourceElement();
     var tgt=cell.getTargetElement();
-    cell.attributes.opl=linkTypeSelection.generateOPL(src,tgt,cell.attributes.name);
+    // cell.attributes.opl=linkTypeSelection.generateOPL(src,tgt,cell.attributes.name);
   }
   //update OPL for an Object when object is added or changed
   updateObjectOPL(cell){
@@ -118,7 +118,7 @@ export class RappidMainComponent implements OnInit {
     var affiliation=this.getElementAffiliation(cell);
     var objectName=cell.attributes.attrs.text.text;
 
-    cell.attributes.opl=`<b class="object">${objectName}</b> is <i>${affiliation}</i> and <i>${essence}</i><b>.</b>`;
+    // cell.attributes.opl=`<!--<b class="object">${objectName}</b> is <i>${affiliation}</i> and <i>${essence}</i><b>.</b>-->`;
 
   }
   //update OPL for a Process when process is added or changed
@@ -127,7 +127,7 @@ export class RappidMainComponent implements OnInit {
     var affiliation=this.getElementAffiliation(cell);
     var processName=cell.attributes.attrs.text.text;
 
-    cell.attributes.opl=`<b class="process">${processName}</b> is <i>${affiliation}</i> and <i>${essence}</i><b>.</b>`;
+    // cell.attributes.opl=`<b class="process">${processName}</b> is <i>${affiliation}</i> and <i>${essence}</i><b>.</b>`;
 
   }
 
@@ -154,7 +154,7 @@ export class RappidMainComponent implements OnInit {
 
     dialogComponentRef.instance.close.subscribe(result => {
       dialogComponentRef.destroy();
-      link.attributes.opl=result.opl;
+      // link.attributes.opl=result.opl;
     });
 
 
@@ -241,7 +241,7 @@ export class RappidMainComponent implements OnInit {
         }
       }
 
-      if (cell.attributes.type === 'opm.Link' && cell.attributes.opl!=null){
+      if (cell.attributes.type === 'opm.Link' && cell.attributes.opl){
         this.updateLinkOPL(cell);
       }
     });

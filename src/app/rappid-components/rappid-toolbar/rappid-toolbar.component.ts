@@ -37,11 +37,6 @@ export class RappidToolbarComponent implements OnInit {
   }
 
   saveModel() {
-    debugger;
-    if (this.graphService.modelObject.name === null) {
-      return this.saveModelAs();
-    }
-    return this.graphService.saveGraph(this.graphService.modelObject.name);
   }
 
   saveModelAs() {
@@ -62,7 +57,6 @@ export class RappidToolbarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (!!result) {
         this.graphService.loadGraph(result);
-        this.graphService.modelObject.name = result;
       }
     });
   }
