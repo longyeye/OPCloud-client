@@ -76,7 +76,11 @@ export class DialogComponent {
     return serv;
   }
 
+//Close Dialog Button
+   DefaultExit(){
+    this.close.emit('event');
 
+  }
 
 
   constructor(){
