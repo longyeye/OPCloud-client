@@ -79,8 +79,8 @@ export const basicDefinitions = {
         attrs: {
           rect: this.createShape('state'),
           text: this.createText('state'),
-          'father': null
-        }
+        },
+        'father': null
       }, joint.shapes.basic.Generic.prototype.defaults)
     };
   }
