@@ -32,6 +32,7 @@ export class DialogComponent {
   noshow:boolean=false;
   //links arrays
   public Structural_Links: Array<any> = [];
+  public Relation_Links: Array<any> = [];
   public Agent_Links: Array<any> = [];
   public Instrument_Links: Array<any> = [];
   public Effect_links: Array<any> = [];
