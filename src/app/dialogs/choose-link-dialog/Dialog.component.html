@@ -38,6 +38,18 @@
     <md-grid-tile><p class="oplname">{{replacename(link.name)}}</p></md-grid-tile>
   </md-grid-list >
 </div>
+    
+    <!-- Relation Links -->
+    <div *ngIf=check_empty(Relation_Links)>
+      <md-grid-list  cols="2"  (click)="onClickedExit(link)"  rowHeight="8:1" *ngFor="let link of Relation_Links">
+        <md-grid-tile>
+          <div style="margin-left: -60%" class='Structrial {{link.name}}'></div>
+        </md-grid-tile>
+        <md-grid-tile class="item">
+          <div class="opl" [innerHtml]="link.opl">{{link.opl}}</div></md-grid-tile>
+        <md-grid-tile><p class="oplname">{{replacename(link.name)}}</p></md-grid-tile>
+      </md-grid-list >
+    </div>
 
   <!-- Result Link -->
     <div *ngIf=check_empty(Result_Link)>
