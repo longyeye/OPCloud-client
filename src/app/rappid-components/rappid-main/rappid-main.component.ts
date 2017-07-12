@@ -119,13 +119,16 @@ export class RappidMainComponent implements OnInit {
     dialogComponentRef.instance.linkTarget=link.getTargetElement();
     dialogComponentRef.instance.opmLinks=linkTypeSelection.generateLinkWithOpl(link);
     for(let link of dialogComponentRef.instance.opmLinks){
+      if(link.name =="Unidirectional_Relation"
+        || link.name =="Bidirectional_Relation"){
+        dialogComponentRef.instance.Relation_Links.push(link)
+      }
       //Structrial Links
-      if(link.name =="Aggregation-Participation"
+      else if(link.name =="Aggregation-Participation"
         || link.name =="Generalization-Specialization"
         || link.name =="Exhibition-Characterization"
         || link.name =="Classification-Instantiation"
-        || link.name =="Unidirectional_Relation"
-        || link.name =="Bidirectional_Relation") {
+       ) {
 
           dialogComponentRef.instance.Structural_Links.push(link);
         }
