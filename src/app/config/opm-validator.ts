@@ -14,7 +14,7 @@ export function opmRuleSet(validator, graph) {
         else if(target.id == source.get('parent')){
           return next('A state cannot be connected to his object!');
         }
-        if ((source.attributes.type == 'opm.StateNorm') && (target.attributes.type == 'opm.StateNorm') && source.get('parent')==target.get('parent')) {
+        if ((source.attributes.type == 'opm.State') && (target.attributes.type == 'opm.State') && source.get('parent')==target.get('parent')) {
           return next('A link cannot connect between two states inside the same object!');
         }
         if(source.id == target.id){

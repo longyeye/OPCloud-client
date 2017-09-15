@@ -1,21 +1,10 @@
 import { Component } from '@angular/core';
-import { AuthService } from './services/auth.service';
 
 @Component({
-  selector: 'app-root',
+  selector: 'opcloud-root',
   template: `
-    <div id="app" class="joint-theme-modern joint-app">
-      <opcloud-header></opcloud-header>
-      <opcloud-rappid></opcloud-rappid>
-    </div>
-    <opcloud-auth></opcloud-auth>
+    <opc-main></opc-main>
   `,
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'app works!';
-  constructor() {
-
-  }
-}
-//<opcloud-opl-widget></opcloud-opl-widget>
+export class AppComponent {}

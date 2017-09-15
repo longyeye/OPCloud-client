@@ -4,22 +4,24 @@
  * Nadav Oved, Aviv Sugarman, Oleg Zendel, Itamar Shafran and Or Keren
  * for the OPCloud Project
  */
-
 const joint = require('rappid');
 export const _ = require('lodash');
 import { basicDefinitions } from './basicDefinitions';
+import {OpmProcess} from '../models/OpmProcess';
+import { OpmObject } from '../models/OpmObject';
 
 export const opmShapes = {
-  //OPM Links definitions
+  // OPM Links definitions
+
   Link: joint.dia.Link.extend(basicDefinitions.defineLink()),
-  Object: joint.dia.Element.extend(basicDefinitions.defineShape('rect')),
-  Process: joint.dia.Element.extend(basicDefinitions.defineShape('ellipse')),
-  StateNorm: joint.dia.Element.extend(basicDefinitions.defineState()),
+  Object: new OpmObject(),
+  Process: new OpmProcess(),
+  State: joint.dia.Element.extend(basicDefinitions.defineState()),
   TriangleAgg: joint.shapes.devs.Model.extend({
     markup: '<image/>',
     defaults: _.defaultsDeep({
-      type: 'app.TriangleAgg',
-      size: {width: 40, height: 40},
+      type: 'opm.TriangleAgg',
+      size: {width: 30, height: 30},
       inPorts: ['in'],
       outPorts: ['out'],
       ports: {
@@ -53,9 +55,17 @@ export const opmShapes = {
         }
       },
       attrs: {
-        image: { 'xlink:href': '../../assets/OPM_Links/StructuralAgg.png', width: 40, height: 40},
+        image: { 'xlink:href': '../../assets/OPM_Links/StructuralAgg.png', width: 30, height: 30},
       }
     }, joint.shapes.devs.Model.prototype.defaults)
+  }),
+  StructLink: joint.shapes.devs.Link.extend({
+    defaults: _.defaultsDeep({
+      type: 'opm.StructLink',
+      router: {name: 'manhattan', args: { step: 5}},
+//      connection: { name: 'orthogonal' },
+      attrs: {'.link-tools': {display: 'none'}, '.marker-arrowheads': {display: 'none'}}
+    }, joint.shapes.devs.Link.prototype.defaults)
   })
 };
 

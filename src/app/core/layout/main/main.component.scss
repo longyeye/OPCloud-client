@@ -1,0 +1,64 @@
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.sd-tree-menu-icon {
+  position: absolute;
+  top: 74px;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.opcloud-container {
+  height: 100%;
+
+  .sd-tree-menu {
+    padding: 20px;
+    width: 260px;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    // workaround to allow reducing the width beyond the initial value
+    // doesn't work when you have to click inner item...
+    /*
+    &:active {
+      width: 0;
+    }
+    */
+
+    opcloud-opd-hierarchy {
+      flex-grow: 1;
+    }
+
+    opcloud-rappid-navigator {
+      height: 150px;
+    }
+  }
+
+  .sd-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+}
+
+.main-content {
+  overflow: auto;
+  height: 100%;
+  position: relative;
+}
+
+.inspector-button {
+  position: absolute;
+  top: 5px;
+  z-index: 2;
+  right: 20px;
+  cursor: pointer;
+  color: white;
+}

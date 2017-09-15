@@ -96,6 +96,9 @@ export class dataBase {
       {sourceType: "object1.state", targetType1: "object1",targetType2: "null", linkName: "Overtime_exception"},
 
       {sourceType: "process1", targetType1: "process2",targetType2: "null", linkName: "Undertime_exception"},
+      {sourceType: "object1.state", targetType1: "process2",targetType2: "null", linkName: "Undertime_exception"},
+      {sourceType: "object1.state1", targetType1: "object1.state2",targetType2: "null", linkName: "Undertime_exception"},
+      {sourceType: "object1.state", targetType1: "object1",targetType2: "null", linkName: "Undertime_exception"},
 
 //      {sourceType: "process1", targetType1: "process2",targetType2: "null", linkName: "Undertime_and_overtime_exeption"},
 
@@ -125,8 +128,10 @@ export class dataBase {
       {sourceType: "process1", targetType1: "object2",targetType2: "null", linkName: "Condition_Effect"},
 
       {sourceType: "object1", targetType1: "process2",targetType2: "null", linkName: "Event_Instrument"},
+      {sourceType: "object1.state", targetType1: "process2",targetType2: "null", linkName: "Event_Instrument"},
 
-      {sourceType: "object1", targetType1: "process2",targetType2: "null", linkName: "Event_Agent"}
+      {sourceType: "object1", targetType1: "process2",targetType2: "null", linkName: "Event_Agent"},
+      {sourceType: "object1.state", targetType1: "process2",targetType2: "null", linkName: "Event_Agent"}
     ];
   }
 }

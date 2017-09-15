@@ -14,7 +14,7 @@ function saveValues(cell, parent) {
 }
 
 export function addNewState(fatherObject, graph) {
-  let defaultState = new joint.shapes.opm.StateNorm(basicDefinitions.defineState());
+  let defaultState = new joint.shapes.opm.State(basicDefinitions.defineState());
   fatherObject.embed(defaultState);     //makes the state stay in the bounds of the object
   graph.addCells([fatherObject, defaultState]);
   //Placing the new state. By default it is outside the object.

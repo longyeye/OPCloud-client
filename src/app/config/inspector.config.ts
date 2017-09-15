@@ -9,7 +9,7 @@ export const inspectorConfig = {
   //process parameters
   'opm.Process': CommonFunctions.CreateInspectorShapesPart('ellipse', inspectorShapes.shapeDefinition, inspectorShapes.textDefinition, inspectorShapes.functionDefinition, inspectorShapes.groupsDefinition),
   //state parameters
-  'opm.StateNorm': CommonFunctions.CreateInspectorShapesPart('rect', inspectorShapes.falseDefinition, inspectorShapes.textDefinition, inspectorShapes.falseDefinition, inspectorShapes.groupsDefinition),
+  'opm.State': CommonFunctions.CreateInspectorShapesPart('rect', inspectorShapes.falseDefinition, inspectorShapes.textDefinition, inspectorShapes.falseDefinition, inspectorShapes.groupsDefinition),
   //link parameters
   'opm.Link': {
     inputs: {

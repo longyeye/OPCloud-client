@@ -45,7 +45,7 @@ export class RappidOplComponent implements OnInit {
           this.updateProcessOPL(cell);
         }
 
-        if (cell.attributes.type === 'opm.StateNorm') {
+        if (cell.attributes.type === 'opm.State') {
           var parentId = cell.attributes.parent;
           if(parentId) {
             var parent = this.graph.getCell(parentId).attributes.attrs.text.text;
@@ -55,7 +55,7 @@ export class RappidOplComponent implements OnInit {
       });
 
       this.graph.on('change', (cell) => {
-        if (cell.attributes.type === 'opm.StateNorm') {
+        if (cell.attributes.type === 'opm.State') {
           var parentId = cell.attributes.parent;
           if(parentId){
             var parent = this.graph.getCell(parentId).attributes.attrs.text.text;

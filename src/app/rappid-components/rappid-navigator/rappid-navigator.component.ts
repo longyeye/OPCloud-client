@@ -5,7 +5,7 @@ const joint = require('rappid');
 @Component({
   selector: 'opcloud-rappid-navigator',
   template: `<div class="navigator-container" #navigatorContainer></div>`,
-  styleUrls: ['rappid-navigator.component.css']
+  styleUrls: ['rappid-navigator.component.scss']
 })
 export class RappidNavigatorComponent implements OnInit {
   @Input() private paperScroller;

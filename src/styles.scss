@@ -4,13 +4,138 @@
 @import 'assets/OPCloud-dev/css/theme-picker.css';
 @import 'assets/OPCloud-dev/css/halo.css';
 @import 'assets/OPCloud-dev/css/OPCloud.css';
-@import '~@angular/material/core/theming/all-theme';
+@import 'assets/styles/material-theme.scss';
 
-@include mat-core();
+html, body {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-$primary: mat-palette($mat-deep-purple);
-$accent:  mat-palette($mat-amber, A200, A100, A400);
+body {
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  user-select: none;
+  font-family: sans-serif, Arial;
+  overflow: hidden;
+}
 
-$theme: mat-light-theme($primary, $accent);
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'),
+  local('MaterialIcons-Regular'),
+  url(assets/icons/2fcrYFNaTjcS6g4U3t-Y5UEw0lE80llgEseQY3FEmqw.woff2) format('woff2');
+}
 
-@include angular-material-theme($theme);
+.material-icons {
+  font-family: 'Material Icons';
+  //font-family: 'Material Icons Extended';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.joint-paper-scroller, .paper-container, .joint-paper {
+  height: 100%;
+}
+
+.joint-stencil {
+
+  .stencil-paper-drag {
+    display: none;
+  }
+
+}
+
+.choose-link-dialog .mat-dialog-container {
+  padding: 0;
+}
+
+.navigator-container {
+  bottom: 10px;
+  left: 10px;
+
+  .joint-navigator .current-view {
+    border: 2px solid #31d0c6;
+    position: absolute;
+  }
+}
+
+.opl {
+
+  .object {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+    max-width: 14ch;
+    color: #006400;
+  }
+
+  .process {
+    color: #00008B;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    display: inline-block;
+    max-width: 15ch
+  }
+}
+
+.app-toolbar .stencil-container {
+  position: relative;
+
+  .joint-stencil {
+    background: transparent;
+    position: relative;
+
+    > .content {
+      position: relative;
+    }
+  }
+
+  .joint-paper {
+    transform: scale(0.6);
+  }
+}
+
+.main-content {
+
+  .paper-container {
+    position: relative;
+    left: 0;
+    right: 0;
+  }
+
+  .inspector-container {
+    right: 15px;
+    bottom: 20px;
+    overflow: auto;
+  }
+
+  .joint-inspector {
+    bottom: initial;
+  }
+}
+
+
+.opcloud-opd-tree tree-viewport {
+  overflow: visible;
+}

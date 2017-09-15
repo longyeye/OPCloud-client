@@ -1,0 +1,57 @@
+:host {
+  box-shadow: 10px 0px black;
+  z-index: 1;
+}
+
+.app-toolbar {
+
+  .app-toolbar-menu {
+    box-shadow: none;
+    user-select: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    filter: none;
+    font-weight: normal;
+    height: auto;
+    line-height: inherit;
+    margin: 0;
+    min-width: 0;
+    padding: 0;
+    text-align: left;
+    text-decoration: none;
+    outline: none;
+
+    .app-toolbar-menu-icon {
+      padding: 0 14px 0 14px;
+      color: rgba(255, 255, 255, .54);
+
+      transition: .2s all linear;
+
+      &:hover {
+        color: rgba(255, 255, 255, 1);
+      }
+    }
+  }
+
+  .app-toolbar-title {
+    font-family: 'Product Sans', sans-serif;
+    color: white
+  }
+
+  .app-toolbar-filler {
+    flex: 1 1 auto;
+  }
+}
+
+.logo {
+  height: 50px;
+}
+
+.model-name {
+  width: 260px;
+  text-align: center;
+  margin: 10px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}

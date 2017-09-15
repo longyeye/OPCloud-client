@@ -24,7 +24,7 @@ export const linkTypeSelection = {
         srcName=`<b class="object">${srcName}</b>`;
       case 'opm.Process':
         srcName=`<b class="process">${srcName}</b>`;
-     // case 'opm.StateNorm':
+     // case 'opm.State':
      //   var parentName=graph.getCell(source.attributes.parent).attributes.attrs.text.text;
        // var stateName=source.attributes.attrs.text.text;
       //  srcName=`<b class="state">${stateName} ${parentName}</b>`;
@@ -89,12 +89,12 @@ export const linkTypeSelection = {
     else if(linkName=="Invocation"){
       return `${srcName} invokes ${desName}.`;
     }
-    // cant read link name format 
+    // cant read link name format
     //else if(linkName=="Overtime_exception_<maxtime, unit>"){
      // return `${desName} occurs if ${srcName} lasts more than <maxtime> <units>.`;
       //<maxtime> and <unit> can be typed after the popup menu,
       //bur need these parameters to generate OPL in the opl widget
-    
+
     //}
     //else if(linkName=="Undertime_exception <minitime, unit>"){
      // return `${this.desName} occurs if ${this.srcName} falls short of <mintime> <units>.`;
@@ -102,7 +102,7 @@ export const linkTypeSelection = {
       //bur need these parameters to generate OPL in the opl widget
    // }
       else if(linkName=="Overtime_exception"){
-      return `${desName} occurs if ${srcName} lasts more than maxtime units.`; 
+      return `${desName} occurs if ${srcName} lasts more than maxtime units.`;
     }
     else if(linkName=="Undertime_exception"){
       return `${desName} occurs if ${srcName} falls short of mintime units.`;
@@ -169,18 +169,27 @@ export const linkTypeSelection = {
       if(result.indexOf(linkData.linkName)>-1){
         continue;
       }
-      //No state implementation yet so the lines that include state data are ignored
-      var isSourceMatch = ((linkData.sourceType.indexOf(source) > -1) && (linkData.sourceType.indexOf("state") == -1));
-      var isTarget1Match = ((linkData.targetType1.indexOf(target) > -1) && (linkData.targetType1.indexOf("state") == -1));
-      var isTarget2Match = ((linkData.targetType2.indexOf(target) > -1) && (linkData.targetType2.indexOf("state") == -1));
+      var isSourceMatch = false, isTargetMatch = false;
+      if(source == 'state'){
+        isSourceMatch = (linkData.sourceType.indexOf(source) > -1);
+      }
+      else {
+        isSourceMatch = ((linkData.sourceType.indexOf(source) > -1) && (linkData.sourceType.indexOf("state") == -1));
+      }
+      if(target == 'state'){
+        isTargetMatch = (linkData.targetType1.indexOf(target) > -1) || (linkData.targetType2.indexOf(target) > -1);
+      }
+      else {
+        isTargetMatch = (((linkData.targetType1.indexOf(target) > -1) && (linkData.targetType1.indexOf("state") == -1)) ||
+          ((linkData.targetType2.indexOf(target) > -1) && (linkData.targetType2.indexOf("state") == -1)));
+      }
 
-      if(isSourceMatch && (isTarget1Match || isTarget2Match)){
+      if(isSourceMatch && isTargetMatch){
         result.push({name: linkData.linkName, opl: "gggggg"});
       }
     }
 
     return result;
-
   },
 
   generateLinkWithOpl(link){

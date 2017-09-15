@@ -6,6 +6,7 @@ const rootId="SD";
 const firebaseKeyEncode = require('firebase-key-encode');
 
 
+
 @Injectable()
 export class GraphService {
   graph;
@@ -28,15 +29,11 @@ export class GraphService {
     this.currentGraphId = rootId;
     // this.initializeDatabase();
     // TODO: change:position emits on mousemove, find a better event - when drag stopped
-    this.graph.on(`add 
-                  remove 
-                  change:position 
-                  change:attrs 
-                  change:size 
-                  change:angle`,
+    this.graph.on(`
+                  remove`,
       () => this.updateJSON());
-     this.modelObject = new ModelObject(null, null);
 
+     this.modelObject = new ModelObject(null, null);
   }
 
   getGraph(name?: string) {
@@ -44,54 +41,54 @@ export class GraphService {
     return name ? this.loadGraph(name) : this.graph;
   }
 
-  saveGraph(modelName) {
+  saveGraph(modelName, firstSave) {
     console.log('inside saveModel func')
     // TODO: work on this.graph.modelObject - might be JSON
-    this.modelObject.saveModelParam(modelName, firebaseKeyEncode.deepEncode(this.JSON));
+    this.JSON = this.graph.toJSON();
+    this.modelObject.saveModelParam(modelName, this.JSON);
+    firebaseKeyEncode.deepEncode(this.modelObject.modelData);
     this.modelStorage.save(this.modelObject);
+    if(firstSave)     //if saveAs and not only save
+      this.modelStorage.listen(modelName, this.graph);
   }
 
   loadGraph(name) {
     this.modelStorage.get(name).then((res) => {
       this.modelObject = res;
-      this.graph.fromJSON(firebaseKeyEncode.deepDecode(this.modelObject.modelData));
+      firebaseKeyEncode.deepDecode(this.modelObject.modelData)
+      this.graph.fromJSON(this.modelObject.modelData);
     });
+    this.modelStorage.listen(name, this.graph);
   }
 
   updateJSON() {
-    this.JSON = this.graph.toJSON();
-  //  this.JSON_string = JSON.stringify(this.JSON);
-    // TODO: should add OPL sync to the DB
-    // this.modelToSync = { graph: this.JSON_string };
-    if (this.modelObject.name !== null) {
-       // update DB
-      console.log('go to FB');
-      this.modelStorage.save(this.modelObject);
-      this.saveGraph(this.modelObject.name); //DM
-    }
-    else {
+    const modelInDb = this.modelStorage.models.includes(this.modelObject.name);
+    if ((this.modelObject.name !== null) && modelInDb) {
+      this.saveGraph(this.modelObject.name, false);
+    } else {
       localStorage.setItem(this.modelObject.name, this.modelToSync);
     }
   }
+
 
 //   this.fireDB.ref('/models/' + this.modelName).on('value', function (snapshot) {
 //   getModel(snapshot.val());
 // });
 
-   /*
-   _.bind(this.graph.updateModel, this.graph);
+/*
+
    this.graph.listen = function () {
    function getModel(model) {
-   if (app.graph.myChangeLock) {
+   if (this.graph.myChangeLock) {
    //console.log('my change');
-   app.graph.myChangeLock = false;
+   this.graph.myChangeLock = false;
    return;
    }
-   app.graph.JSON_string = model.graph;
-   app.graph.JSON = JSON.parse(app.graph.JSON_string);
-   app.graph.fromJSON(JSON.parse(app.graph.JSON_string));
-   app.graph.OPL = model.opl;
-   document.getElementById("opl").innerHTML = app.graph.OPL;
+   this.graph.JSON_string = model.graph;
+   this.graph.JSON = JSON.parse(this.graph.JSON_string);
+   this.graph.fromJSON(JSON.parse(this.graph.JSON_string));
+   this.graph.OPL = model.opl;
+   document.getElementById("opl").innerHTML = this.graph.OPL;
    };
    if (this.modelName !== 'undefined') {
    this.fireDB.ref('/models/' + this.modelName).on('value', function (snapshot) {
@@ -101,7 +98,8 @@ export class GraphService {
    };
    _.bind(this.graph.listen, this.graph);
    this.graph.listen();
-   }*/
+   }
+*/
 
   getGraphById(ElementId: string) {
     this.graph.fromJSON(JSON.parse(localStorage.getItem(ElementId)));
@@ -124,11 +122,18 @@ export class GraphService {
 
   //star
 
-  private copyConntectedGraphElements(newGraph,elementId)
-  {
+  private copyConntectedGraphElements(newGraph, elementId) {
     let gCell=this.graph.getCell(elementId);
     let connctedCells=this.graph.getNeighbors(gCell);
     newGraph.addCells(connctedCells);
+    let graphServiceThis = this;
+    connctedCells.forEach(function(elm){
+      let parentId = elm.get('parent');
+      if (parentId) {
+        newGraph.addCells(graphServiceThis.graph.getCell(parentId).getEmbeddedCells());
+        newGraph.addCell(graphServiceThis.graph.getCell(parentId));
+      }
+  });
     this.graphLinks = this.graph.getConnectedLinks(gCell);
   }
 
@@ -139,6 +144,4 @@ export class GraphService {
     this.graph.fromJSON(JSON.parse(localStorage.getItem(elementId)));
     this.currentGraphId = elementId;
   }
-
-
 }

@@ -36,5 +36,8 @@ export class ModelLocalStorageService extends ModelStorageInterface {
     return Object.keys(this.models);
   }
 
+  deleteModel(modelName) {
+    this.models[modelName].remove();
+  }
 }
 

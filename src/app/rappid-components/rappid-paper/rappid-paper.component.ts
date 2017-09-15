@@ -6,7 +6,7 @@ const joint = require('rappid');
   template: `
     <div class="paper-container" #paperContainer></div>
   `,
-  styleUrls: ['./rappid-paper.component.css']
+  styleUrls: ['./rappid-paper.component.scss']
 })
 export class RappidPaperComponent implements AfterViewInit{
   @Input() paper;

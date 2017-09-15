@@ -2,7 +2,7 @@
 
 Copyright (c) 2015 client IO
 
- 2016-09-20 
+ 2016-09-20
 
 
 This Source Code Form is subject to the terms of the Rappid Academic License
@@ -573,10 +573,6 @@ Do not allow adding new vertices: .connection-wrap { pointer-events: none; }
     border: 2px dashed #feb663 ;
 }
 
-.joint-selection.joint-theme-dark .selection-wrapper {
-    border: 2px solid #feb663 ;
-}
-
 .joint-selection.joint-theme-dark .box {
     font-size: 10px;
     color: #fff;
@@ -620,11 +616,6 @@ Do not allow adding new vertices: .connection-wrap { pointer-events: none; }
     border: 2px dashed lightgrey;
 }
 
-/* selection for two or more elements */
-.joint-selection.joint-theme-default .selection-wrapper {
-    border: 2px solid lightgrey;
-}
-
 /* information box for two or more elements */
 .joint-selection.joint-theme-default .box {
     background-color: lightgrey;
@@ -653,10 +644,6 @@ Do not allow adding new vertices: .connection-wrap { pointer-events: none; }
 
 .joint-selection.joint-theme-material .selection-box {
     border: 2px dashed #5faaee ;
-}
-
-.joint-selection.joint-theme-material .selection-wrapper {
-    border: 2px solid #5faaee ;
 }
 
 .joint-selection.joint-theme-material .box {
@@ -699,11 +686,6 @@ Do not allow adding new vertices: .connection-wrap { pointer-events: none; }
 
 .joint-selection.joint-theme-modern .selection-box {
     border: 2px dashed #feb663 ;
-    box-shadow: 2px 2px 5px lightgray;
-}
-
-.joint-selection.joint-theme-modern .selection-wrapper {
-    border: 2px solid #feb663 ;
     box-shadow: 2px 2px 5px lightgray;
 }
 
@@ -6717,7 +6699,7 @@ html div.joint-navigator.joint-theme-dark > .joint-paper {
     display: inline-block;
     text-decoration: inherit;
 }
-.joint-navigator.joint-theme-dark .current-view-control:before { 
+.joint-navigator.joint-theme-dark .current-view-control:before {
     content: '\e801';
     position: absolute;
     top: 4px;

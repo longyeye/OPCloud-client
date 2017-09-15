@@ -1,0 +1,24 @@
+:host {
+  position: relative;
+}
+
+.opl-widget {
+  height: 150px;
+  width: 100%;
+  background-color: rgba(103, 58, 183, 0.11);
+  overflow: auto;
+  padding: 0.5em 1em;
+  box-sizing: border-box;
+
+  p {
+    -webkit-margin-before: 0.5em;
+    -webkit-margin-after: 0.5em;
+  }
+}
+
+.opl-icon {
+  position: absolute;
+  z-index: 2;
+  cursor: pointer;
+  height: 30px;
+}

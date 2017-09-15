@@ -3,20 +3,16 @@
  */
 import * as common from "../common/commonFunctions";
 import {gridLayout} from "./gridLayout";
+import {textWrapping} from "../rappid-components/rappid-main/textWrapping";
 const joint = require('rappid');
 const paddingObject = common.paddingObject;
 
 export function arrangeStates(side) {
   let options = this.options;
   let fatherObject = options.cellView.model;
-  let text = options.paper.findViewByModel(fatherObject).$('text')[0];
   let embeddedStates = fatherObject.getEmbeddedCells();
   let maxWidth = null;
   let maxHeight = null;
-  let overText = false;
-  let textBBox = null;
-  // Transform the textBoundBox into cell coordinates
-  textBoundBox();
   // If the Object has any embedded states
   if (embeddedStates.length) {
     // Find the maximum Height and Width of all the states
@@ -26,137 +22,35 @@ export function arrangeStates(side) {
     });
     // Set the Height and Width fo every state
     common._.each(embeddedStates, function (child) {
-      let originalW = child.getBBox().width;
-      let originalH = child.getBBox().height;
-      if (originalH != maxHeight && originalH * 2 > maxHeight) {
-        child.set({size: {height: maxHeight, width: originalW}});
-        originalH = maxHeight;
-      }
-      if (originalW != maxWidth && originalW * 2 > maxWidth)
-        child.set({size: {height: originalH, width: maxWidth}});
+      let stateWidth = (child.getBBox().width * 2 > maxWidth) ? maxWidth : child.getBBox().width;
+      let stateHeight = (child.getBBox().height * 2 > maxHeight) ? maxHeight : child.getBBox().height;
+      child.set({size: {height: stateHeight, width: stateWidth}});
     });
-    if (side == 'top') {
-      //Change the attributes of the object - will be applied when rendered
-      fatherObject.attributes.attrs.text["ref-y"] = '0.75';
-      fatherObject.attributes.attrs.statesArrange = 'top';
-      fatherObject.attributes.attrs.text["ref-x"] = '0.5';
-      options.cellView.render();
-      textBoundBox();
-      gridLayout.layout(embeddedStates, {
-        columns: embeddedStates.length,
-        columnWidth: maxWidth + 5,
-        rowHeight: maxHeight,
-        marginY: (fatherObject.getBBox().y + paddingObject),
-        marginX: (fatherObject.getBBox().x + fatherObject.getBBox().width * 0.5) - 0.5 * (maxWidth + 5) * embeddedStates.length
-      });
-      common._.each(embeddedStates, function (child) {
-        if (child.getBBox().y + child.getBBox().height >= textBBox.y)
-          overText = true;
-      });
-      if (overText) {
-        common._.each(embeddedStates, function (child) {
-          child.set({position: {x: child.getBBox().x, y: textBBox.y - textBBox.height - maxHeight}});
-        });
-        overText = false;
-      }
+
+    if((side == 'top') || (side == 'bottom')){
+      var refY = (side == 'top') ? (maxHeight+2*common.paddingObject) : common.paddingObject;
+      common.CommonFunctions.arrangeStatesParams(fatherObject, 0.5, refY, 'middle', 'up', side, 0, maxHeight+common.paddingObject);
+      textWrapping.updateTextAndSize(fatherObject);
+      var marginY = (side == 'top') ? (fatherObject.getBBox().y + paddingObject) : (fatherObject.getBBox().y + fatherObject.getBBox().height - paddingObject - maxHeight);
+      updtaeGridLayout(embeddedStates.length, maxWidth + 5, maxHeight, fatherObject.getBBox().x + 0.5*(fatherObject.getBBox().width - (maxWidth + 5) * embeddedStates.length), marginY);
     }
-    else if (side == 'bottom') {
-      //Change the attributes of the object - will be applied when rendered
-      fatherObject.attributes.attrs.text["ref-y"] = '0.25';
-      fatherObject.attributes.attrs.statesArrange = 'bottom';
-      fatherObject.attributes.attrs.text["ref-x"] = '0.5';
-      options.cellView.render();
-      textBoundBox();
-      gridLayout.layout(embeddedStates, {
-        columns: embeddedStates.length,
-        columnWidth: maxWidth + 5,
-        rowHeight: maxHeight,
-        marginY: ((fatherObject.getBBox().y + fatherObject.getBBox().height) - paddingObject) - maxHeight,
-        marginX: (fatherObject.getBBox().x + fatherObject.getBBox().width * 0.5) - 0.5 * (maxWidth + 5) * embeddedStates.length
-      });
-      common._.each(embeddedStates, function (child) {
-        if (child.getBBox().y <= textBBox.y + textBBox.height) {
-          overText = true;
-        }
-      });
-      if (overText) {
-        common._.each(embeddedStates, function (child) {
-          child.set({
-            position: {
-              x: child.getBBox().x,
-              y: textBBox.y + textBBox.height + paddingObject / 2
-            }
-          });
-        });
-        overText = false;
-      }
-    }
-    else if (side == 'left') {
-      fatherObject.attributes.attrs.text["ref-y"] = '0.5';
-      fatherObject.attributes.attrs.statesArrange = 'left';
-      fatherObject.attributes.attrs.text["ref-x"] = '0.25';
-      options.cellView.render();
-      textBoundBox();
-      gridLayout.layout(embeddedStates, {
-        columns: 1,
-        rows: embeddedStates.length,
-        columnWidth: maxWidth,
-        rowHeight: maxHeight + 5,
-        marginY: (fatherObject.getBBox().y + fatherObject.getBBox().height * 0.5) - 0.5 * (maxHeight + 5) * embeddedStates.length,
-        marginX: ((fatherObject.getBBox().x + fatherObject.getBBox().width) - paddingObject) - maxWidth
-      });
-      common._.each(embeddedStates, function (child) {
-        if (child.getBBox().x <= textBBox.x + textBBox.width)
-          overText = true;
-      });
-      if (overText) {
-        common._.each(embeddedStates, function (child) {
-          child.set({
-            position: {
-              x: textBBox.x + textBBox.width + paddingObject * 0.8,
-              y: child.getBBox().y
-            }
-          });
-        });
-        overText = false;
-      }
-    }
-    else if (side == 'right') {
-      fatherObject.attributes.attrs.text["ref-y"] = '0.5';
-      fatherObject.attributes.attrs.statesArrange = 'right';
-      fatherObject.attributes.attrs.text["ref-x"] = '0.75';
-      options.cellView.render();
-      textBoundBox();
-      gridLayout.layout(embeddedStates, {
-        columns: 1,
-        rows: embeddedStates.length,
-        columnWidth: maxWidth,
-        rowHeight: maxHeight + 5,
-        marginY: (fatherObject.getBBox().y + fatherObject.getBBox().height * 0.5) - 0.5 * (maxHeight + 5) * embeddedStates.length,
-        marginX: fatherObject.getBBox().x + paddingObject
-      });
-      common._.each(embeddedStates, function (child) {
-        if (child.getBBox().x + child.getBBox().width >= textBBox.x)
-          overText = true;
-      });
-      if (overText) {
-        common._.each(embeddedStates, function (child) {
-          child.set({
-            position: {
-              x: textBBox.x - textBBox.width - paddingObject * 0.8,
-              y: child.getBBox().y
-            }
-          });
-        });
-        overText = false;
-      }
+    if((side == 'left') || (side == 'right')){
+      var refX = (side == 'left') ? (maxWidth+2*common.paddingObject) : common.paddingObject;
+      common.CommonFunctions.arrangeStatesParams(fatherObject, refX, 0.5, 'left', 'middle', side, maxWidth+common.paddingObject, 0);
+      textWrapping.updateTextAndSize(fatherObject);
+      var marginX = (side == 'left') ? (fatherObject.getBBox().x + paddingObject) : (fatherObject.getBBox().x + fatherObject.getBBox().width - paddingObject - maxWidth);
+      updtaeGridLayout(1, maxWidth, maxHeight + 5, marginX, fatherObject.getBBox().y + 0.5*(fatherObject.getBBox().height - (maxHeight + 5) * embeddedStates.length));
     }
   }
-  // Transform the textBoundBox into cell coordinates
-  function textBoundBox() {
-    text = options.paper.findViewByModel(fatherObject).$('text')[0];
-    textBBox = text.getBBox();
-    textBBox.x = fatherObject.getBBox().x + fatherObject.getBBox().width * fatherObject.attributes.attrs.text["ref-x"] + textBBox.x;
-    textBBox.y = fatherObject.getBBox().y + fatherObject.getBBox().height * fatherObject.attributes.attrs.text["ref-y"] + textBBox.y;
+
+  function updtaeGridLayout(columns, columnWidthParam, rowHeightParam, marginXParam, marginYParam){
+    gridLayout.layout(embeddedStates, {
+      columns: columns,
+      rows: embeddedStates.length,
+      columnWidth: columnWidthParam,
+      rowHeight: rowHeightParam,
+      marginX: marginXParam,
+      marginY: marginYParam
+    });
   }
 }
